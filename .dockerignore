@@ -1,0 +1,10 @@
+Dockerfile
+.dockerignore
+.git
+.git*
+node_modules
+docker-build.sh
+docker-start.sh
+docker-init.sh
+docker-entry.sh
+.boot2docker-path
