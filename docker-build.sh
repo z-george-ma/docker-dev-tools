@@ -51,10 +51,9 @@ else
   docker rmi -f $TAG
 fi
 docker build -t $TAG_TIMESTAMP .
-docker build -t $TAG_LATEST .
+docker tag $TAG_TIMESTAMP $TAG_LATEST
 
 if [[ "$PUSH" = true ]]; then
-  docker push $TAG_TIMESTAMP
   docker push $TAG_LATEST
 fi
 
