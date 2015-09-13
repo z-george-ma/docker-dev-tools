@@ -8,6 +8,7 @@ Usage: $(basename $0) [options] tag
 
 Options:
   -h        show this help
+  -d        the directory where Dockerfile is in
   -p        push to docker repository
   -c        clear previous built container
   -s        skip TLS verification
@@ -15,14 +16,17 @@ EOF
 }
 
 DOCKER_CMD='docker'
+DIRECTORY='.'
 PUSH=false
 CLEAR_PREV_CONTAINER=false
 
-while getopts "h?psc" opt; do
+while getopts "h?d:psc" opt; do
     case "$opt" in
     h|\?)
         show_help
         exit 0
+        ;;
+    d)  DIRECTORY=$OPTARG
         ;;
     c)  CLEAR_PREV_CONTAINER=true
         ;;
@@ -50,10 +54,9 @@ if [[ "$CLEAR_PREV_CONTAINER" = true ]]; then
 else
   docker rmi -f $TAG
 fi
-docker build -t $TAG_TIMESTAMP .
+docker build -t $TAG_TIMESTAMP $DIRECTORY
 docker tag $TAG_TIMESTAMP $TAG_LATEST
 
 if [[ "$PUSH" = true ]]; then
   docker push $TAG_LATEST
 fi
-
