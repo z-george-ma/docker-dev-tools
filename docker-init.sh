@@ -9,11 +9,11 @@ if [ $# -ge 1 ]; then
   docker-machine stop $1
   "$VBOXMANAGE" sharedfolder add $1 -name $MOUNT_TAG -hostpath `pwd`
   docker-machine start $1
-  docker-machine ssh $1 "sudo sh -c \"if [ ! -d /work ]; then mkdir /$MOUNT_TAG; fi\" && sudo mount -t vboxsf $MOUNT_TAG /$MOUNT_TAG"
+  docker-machine ssh $1 "sudo sh -c \"if [ ! -d /$MOUNT_TAG ]; then mkdir /$MOUNT_TAG; fi\" && sudo mount -t vboxsf $MOUNT_TAG /$MOUNT_TAG"
 else
   boot2docker down
   "$VBOXMANAGE" sharedfolder add boot2docker-vm -name $MOUNT_TAG -hostpath `pwd`
   boot2docker up
-  boot2docker ssh "sudo sh -c \"if [ ! -d /work ]; then mkdir /$MOUNT_TAG; fi\" && sudo mount -t vboxsf $MOUNT_TAG /$MOUNT_TAG"
+  boot2docker ssh "sudo sh -c \"if [ ! -d /$MOUNT_TAG ]; then mkdir /$MOUNT_TAG; fi\" && sudo mount -t vboxsf $MOUNT_TAG /$MOUNT_TAG"
 fi
 echo $MOUNT_TAG > .boot2docker-path
